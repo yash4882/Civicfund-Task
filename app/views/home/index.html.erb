@@ -1,1 +1,25 @@
-<h1>Hello</h1>
+<header class="bg-white shadow-md p-4 flex justify-between items-center">
+  <div class="text-2xl font-semibold text-blue-600">
+    <%= link_to "Civicfund", root_path, class: "hover:text-blue-800" %>
+  </div>
+
+  <nav>
+    <ul class="flex gap-4 text-gray-700">
+      <li><%= link_to "Home", root_path, class: "hover:text-blue-500" %></li>
+
+      <% if user_signed_in? %>
+        <li><%= link_to "Edit Password", edit_user_registration_path, class: "hover:text-blue-500" %></li>
+        <li>
+          <%= button_to "Log out", destroy_user_session_path, method: :delete, class: "text-red-500 hover:text-red-700", form: { class: "inline" } %>
+        </li>
+      <% else %>
+        <% unless controller_name == 'sessions' && action_name == 'new' %>
+          <li><%= link_to "Log-in", new_session_path, class: "hover:text-blue-500" %></li>
+        <% end %>
+        <% unless controller_name == 'registrations' && action_name == 'new' %>
+          <li><%= link_to "Sign-up", new_registration_path, class: "hover:text-blue-500" %></li>
+        <% end %>
+      <% end %>
+    </ul>
+  </nav>
+</header>
