@@ -5,20 +5,18 @@
 
   <nav>
     <ul class="flex gap-4 text-gray-700">
+    <% if user_signed_in? %>
       <li><%= link_to "Home", root_path, class: "hover:text-blue-500" %></li>
+      <% if current_page?(root_path) %>
+        <li>
+          <%= link_to "Your Allocations", confirm_allocations_path, class: "hover:text-blue-500" %>
+        </li>
+      <% end %>
 
-      <% if user_signed_in? %>
         <li><%= link_to "Edit Password", edit_user_registration_path, class: "hover:text-blue-500" %></li>
         <li>
           <%= button_to "Log out", destroy_user_session_path, method: :delete, class: "text-red-500 hover:text-red-700", form: { class: "inline" } %>
         </li>
-      <% else %>
-        <% unless controller_name == 'sessions' && action_name == 'new' %>
-          <li><%= link_to "Log-in", new_session_path, class: "hover:text-blue-500" %></li>
-        <% end %>
-        <% unless controller_name == 'registrations' && action_name == 'new' %>
-          <li><%= link_to "Sign-up", new_registration_path, class: "hover:text-blue-500" %></li>
-        <% end %>
       <% end %>
     </ul>
   </nav>

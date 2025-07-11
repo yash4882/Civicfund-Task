@@ -1,0 +1,39 @@
+<h2 class="text-2xl font-bold text-gray-800 mb-6 mt-10 text-center">Distribute your $1000 Budget</h2>
+
+<%= form_with url: allocations_path, method: :post, data: { controller: "budget", action: "submit->budget#validateBeforeSubmit" }, class: "max-w-2xl mx-auto bg-white shadow-lg rounded-xl p-6 space-y-6" do %>
+    <table class="w-full text-sm text-left text-gray-700 border-separate border-spacing-y-2">
+      <thead>
+        <tr class="text-gray-500 uppercase text-xs tracking-wider">
+          <th class="px-4 py-2">Project</th>
+          <th class="px-4 py-2">Your Allocation ($)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @projects.each do |project| %>
+          <tr class="bg-gray-50 hover:bg-gray-100 transition">
+            <td class="px-4 py-2 font-medium text-gray-900"><%= project.name %></td>
+            <td class="px-4 py-2">
+              <input type="number"
+                     name="allocations[<%= project.id %>]"
+                     value="<%= @existing_allocations[project.id]&.amount || 0 %>"
+                     min="0"
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                     data-budget-target="input"
+                     data-action="input->budget#update"
+              />
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <div class="flex justify-between text-lg font-semibold text-gray-700 border-t pt-4 mt-4">
+      <p>Total Allocated: $<span data-budget-target="total" class="text-blue-600">0</span></p>
+      <p>Remaining: $<span data-budget-target="remaining" class="text-green-600">1000</span></p>
+    </div>
+  </div>
+
+  <div class="text-center">
+    <%= submit_tag "Submit Allocations", class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-200" %>
+  </div>
+<% end %>
